@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Monthly Clinic Return (H-1277) - BH Kattankudy</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Mobile-first sticky summary bar & touch padding */
+        .sticky-summary {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+        }
+        /* Custom number input spinner hiding for cleaner presentation */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        /* Printable A4 Layout for Official Returns */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+            body {
+                background: white !important;
+                color: black !important;
+                font-size: 10pt;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-only {
+                display: block !important;
+            }
+            .print-container {
+                box-shadow: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            input {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+                font-weight: bold;
+                text-align: center;
+            }
+            table {
+                width: 100% !important;
+                border-collapse: collapse !important;
+                page-break-inside: auto;
+            }
+            tr {
+                page-break-inside: avoid;
+                page-break-after: auto;
+            }
+            th, td {
+                border: 1px solid #000 !important;
+                padding: 4px 6px !important;
+                font-size: 9pt !important;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen">
+
+    <!-- Top Action Header (Hidden in Print) -->
+    <header class="no-print bg-teal-800 text-white shadow-lg">
+
+
+
+
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-hospital-user text-2xl text-teal-300"></i>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight">BH Kattankudy</h1>
+                    <p class="text-xs text-teal-200">Mental Health Monthly Clinic Return (H-1277)</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-semibold px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-2 shadow">
+                    <i class="fa-solid fa-file-pdf"></i> Print / PDF
+                </button>
+                <button onclick="exportJSON()" class="bg-teal-700 hover:bg-teal-600 text-white px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-download"></i> Export JSON
+                </button>
+                <button onclick="clearForm()" class="bg-rose-700 hover:bg-rose-600 text-white px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+
+	<button onclick="submitToServer()" class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-sm transition flex items-center gap-1.5 shadow">
+    		<i class="fa-solid fa-cloud-arrow-up"></i> Submit to Server
+	</button>
+
+
+            </div>
+        </div>
+    </header>
+
+    <!-- Sticky Live Counter Summary (Hidden in Print) -->
+    <div class="no-print sticky-summary bg-slate-800 text-white border-b border-slate-700 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-2 grid grid-cols-2 md:grid-cols-4 gap-2 text-center text-xs">
+            <div class="bg-slate-700/60 rounded p-1.5">
+                <span class="block text-slate-400">Total Referrals</span>
+                <span id="summary-referrals" class="font-bold text-base text-teal-400">0</span>
+            </div>
+            <div class="bg-slate-700/60 rounded p-1.5">
+                <span class="block text-slate-400">First Visits (3.x)</span>
+                <span id="summary-firstvisits" class="font-bold text-base text-sky-400">0</span>
+            </div>
+            <div class="bg-slate-700/60 rounded p-1.5">
+                <span class="block text-slate-400">Follow-up Visits</span>
+                <span id="summary-followups" class="font-bold text-base text-indigo-400">0</span>
+            </div>
+            <div class="bg-slate-700/60 rounded p-1.5">
+                <span class="block text-slate-400">Total Attendees</span>
+                <span id="summary-totalattendees" class="font-bold text-base text-emerald-400">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto p-2 sm:p-6 print-container">
+        <div class="bg-white p-4 sm:p-8 rounded-xl shadow-md border border-slate-200">
+            
+            <!-- Official Heading Block -->
+            <div class="text-center mb-6 pb-4 border-b border-slate-300">
+                <h2 class="text-xs uppercase tracking-widest text-slate-500 font-semibold">To Mental Health Focal Point, RDHS Office Batticaloa</h2>
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 mt-1">Mental Health Monthly Clinic Return (H-1277)</h1>
+            </div>
+
+            <!-- Basic Identification Form -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-slate-50 p-4 rounded-lg border border-slate-200">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Organisation Unit:</label>
+                    <input type="text" id="org_unit" value="MHU BH Kattankudy" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Period (Month / Year):</label>
+                    <input type="month" id="period" class="w-full bg-white border border-slate-300 rounded px-3 py-2 text-sm font-semibold text-slate-800 focus:ring-2 focus:ring-teal-500 focus:outline-none">
+                </div>
+            </div>
+
+            <form id="h1277Form" oninput="calculateTotals()">
+
+                <!-- Part A Header -->
+                <div class="bg-teal-800 text-white px-4 py-2 rounded-t-lg font-bold text-base flex justify-between items-center mb-4">
+                    <span>A. Clinic Activities</span>
+                </div>
+
+                <!-- 1. Clinic Sessions -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base">1. Clinic Sessions</h3>
+                        <button type="button" onclick="openModal('part1')" class="no-print text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-2.5 py-1 rounded flex items-center gap-1">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit Categories & Defaults
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                                    <th class="p-2 border border-slate-300">Type of the Clinic</th>
+                                    <th class="p-2 border border-slate-300 w-32 sm:w-48 text-center">No. of Clinic Days</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec1-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 2. Source of Referral -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base">2. Source of Referral (New Clients Only)</h3>
+                        <button type="button" onclick="openModal('part2')" class="no-print text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 px-2.5 py-1 rounded flex items-center gap-1">
+                            <i class="fa-solid fa-pen-to-square"></i> Edit Sources & Defaults
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 border-b border-slate-300 text-slate-700">
+                                    <th class="p-2 border border-slate-300">Source</th>
+                                    <th class="p-2 border border-slate-300 w-32 sm:w-48 text-center">No. of Clients Referred</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec2-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-slate-50 font-bold text-slate-800">
+                                    <td class="p-2 border border-slate-300 text-right">Total Referrals:</td>
+                                    <td id="total-sec2" class="p-2 border border-slate-300 text-center text-teal-700">0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 3. Diagnosis of Clinic Attendees -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">3. Diagnosis of Clinic Attendees</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs sm:text-sm border-collapse text-center">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th rowspan="2" class="p-2 border border-slate-300 text-left min-w-[180px]">Diagnosis</th>
+                                    <th rowspan="2" class="p-2 border border-slate-300 w-20">ICD Code</th>
+                                    <th colspan="2" class="p-2 border border-slate-300 bg-sky-50 text-sky-900">No. of First Visits</th>
+                                    <th colspan="2" class="p-2 border border-slate-300 bg-indigo-50 text-indigo-900">No. of Follow-up Visits</th>
+                                    <th rowspan="2" class="p-2 border border-slate-300 bg-slate-200 w-20">Total</th>
+                                </tr>
+                                <tr class="bg-slate-50 text-slate-700">
+                                    <th class="p-1 border border-slate-300 bg-sky-50/50 w-20">Male</th>
+                                    <th class="p-1 border border-slate-300 bg-sky-50/50 w-20">Female</th>
+                                    <th class="p-1 border border-slate-300 bg-indigo-50/50 w-20">Male</th>
+                                    <th class="p-1 border border-slate-300 bg-indigo-50/50 w-20">Female</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec3-tbody">
+                                <!-- Dynamic Diagnostic Rows -->
+                            </tbody>
+                            <tfoot>
+                                <tr class="bg-slate-100 font-bold text-slate-900">
+                                    <td colspan="2" class="p-2 border border-slate-300 text-right">Total Attendees:</td>
+                                    <td id="tot-3-fv-m" class="p-2 border border-slate-300 text-sky-800">0</td>
+                                    <td id="tot-3-fv-f" class="p-2 border border-slate-300 text-sky-800">0</td>
+                                    <td id="tot-3-fu-m" class="p-2 border border-slate-300 text-indigo-800">0</td>
+                                    <td id="tot-3-fu-f" class="p-2 border border-slate-300 text-indigo-800">0</td>
+                                    <td id="tot-3-grand" class="p-2 border border-slate-300 bg-slate-200 text-emerald-800">0</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 4. Suicides / Self-harm / Abuse / Violence -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">4. Suicides / Self-harm / Abuse / Violence</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs sm:text-sm border-collapse text-center">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th rowspan="2" class="p-2 border border-slate-300 text-left min-w-[200px]">Condition</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">&le; 19 yrs</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">20 - 59 yrs</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">&ge; 60 yrs</th>
+                                </tr>
+                                <tr class="bg-slate-50 text-slate-700">
+                                    <th class="p-1 border border-slate-300 w-16">Male</th>
+                                    <th class="p-1 border border-slate-300 w-16">Female</th>
+                                    <th class="p-1 border border-slate-300 w-16">Male</th>
+                                    <th class="p-1 border border-slate-300 w-16">Female</th>
+                                    <th class="p-1 border border-slate-300 w-16">Male</th>
+                                    <th class="p-1 border border-slate-300 w-16">Female</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec4-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Part C Header -->
+                <div class="bg-teal-800 text-white px-4 py-2 rounded-t-lg font-bold text-base flex justify-between items-center mb-4">
+                    <span>Part C (Main Clinics Only)</span>
+                </div>
+
+                <!-- 5. Community Treatment Programmes -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">5. Community Treatment Programmes</h3>
+                    <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="p-2 border border-slate-300">Programme</th>
+                                <th class="p-2 border border-slate-300 w-32 sm:w-48 text-center">No. of Patient Visits</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sec5-tbody">
+                            <!-- Dynamic Render -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- 6. Mental Health Promotion/Training/Awareness Programmes -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">6. Mental Health Promotion / Training / Awareness Programmes Conducted</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-xs sm:text-sm border-collapse text-center">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-800">
+                                    <th rowspan="2" class="p-2 border border-slate-300 text-left min-w-[200px]">Type of Programme</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Hospital staff</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Public health staff</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">School teachers</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Preschool teachers</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">School children</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Work Places</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Children's homes</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Elderly homes</th>
+                                    <th colspan="2" class="p-1 border border-slate-300">Other</th>
+                                </tr>
+                                <tr class="bg-slate-50 text-[10px]">
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                    <th class="p-1 border border-slate-300 min-w-[40px]">Cond.</th><th class="p-1 border border-slate-300 min-w-[40px]">Part.</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec6-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- 7. Service Utilization at Special Centres -->
+                <section class="mb-8 border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                    <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">7. Service Utilization at Special Centres and Institutions</h3>
+                    <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700">
+                                <th class="p-2 border border-slate-300">Type of the Centre</th>
+                                <th class="p-2 border border-slate-300 w-32 sm:w-48 text-center">No. of Clients</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sec7-tbody">
+                            <!-- Dynamic Render -->
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Part D Header -->
+                <div class="bg-teal-800 text-white px-4 py-2 rounded-t-lg font-bold text-base flex justify-between items-center mb-4">
+                    <span>Part D (Main Clinics Only)</span>
+                </div>
+
+                <!-- 8. Meetings/Programmes Attended & 9. Trainings Received -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Section 8 -->
+                    <section class="border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">8. Meetings/Programmes Attended</h3>
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700">
+                                    <th class="p-2 border border-slate-300">Type of Meeting / Programme</th>
+                                    <th class="p-2 border border-slate-300 w-28 text-center">No. Attended</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec8-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Section 9 -->
+                    <section class="border border-slate-200 rounded-lg p-4 bg-white shadow-sm">
+                        <h3 class="font-bold text-slate-800 text-sm sm:text-base mb-3">9. Trainings Received</h3>
+                        <table class="w-full text-left text-xs sm:text-sm border-collapse">
+                            <thead>
+                                <tr class="bg-slate-100 text-slate-700">
+                                    <th class="p-2 border border-slate-300">Type of Training</th>
+                                    <th class="p-2 border border-slate-300 w-28 text-center">No. Participated</th>
+                                </tr>
+                            </thead>
+                            <tbody id="sec9-tbody">
+                                <!-- Dynamic Render -->
+                            </tbody>
+                        </table>
+                    </section>
+                </div>
+
+            </form>
+        </div>
+    </main>
+
+    <!-- Modal for Dynamic Question & Numerical Value Editing -->
+    <div id="editModal" class="fixed inset-0 bg-slate-900/60 z-50 flex items-center justify-center hidden p-4 no-print">
+        <div class="bg-white rounded-xl shadow-2xl max-w-xl w-full p-6 border border-slate-200">
+            <h3 id="modalTitle" class="font-bold text-slate-900 text-lg mb-4 border-b pb-2">Edit Categories & Default Values</h3>
+            <div id="modalInputs" class="space-y-3 max-h-96 overflow-y-auto pr-1">
+                <!-- Dynamically Inserted Inputs -->
+            </div>
+            <div class="flex justify-end space-x-3 mt-6 pt-3 border-t">
+                <button type="button" onclick="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-100 rounded">Cancel</button>
+                <button type="button" onclick="saveModalChanges()" class="px-4 py-2 text-sm font-semibold bg-teal-800 text-white hover:bg-teal-700 rounded shadow">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Section -->
+    <script>
+        // Form Datasets & Default Categories with Default Numeric Values
+        let sec1Categories = [
+            { name: "1.1 General clinic", value: 4 },
+            { name: "1.2 Child and adolescent guidance clinic", value: 2 },
+            { name: "1.3 Substance abuse clinic", value: 1 },
+            { name: "1.4 Gender based violence clinic", value: 0 },
+            { name: "1.5 Elderly clinic", value: 1 },
+            { name: "1.6 Other", value: 0 }
+        ];
+
+        let sec2Sources = [
+            { name: "2.1 Consultants", value: 5 },
+            { name: "2.2 OPD", value: 12 },
+            { name: "2.3 Other wards/clinics/services of hospital (PCU, ETU, ICU)", value: 8 },
+            { name: "2.4 Other health institutions", value: 3 },
+            { name: "2.5 Public health staff", value: 2 },
+            { name: "2.6 Community (relatives, friends, work places)", value: 4 },
+            { name: "2.7 GPs", value: 1 },
+            { name: "2.8 Courts", value: 0 },
+            { name: "2.9 Self-referrals", value: 6 },
+            { name: "2.10 Other", value: 0 }
+        ];
+
+        const sec3Diagnoses = [
+            { id: "3.1", name: "Dementia", code: "F00-F03" },
+            { id: "3.2", name: "Delirium", code: "F05" },
+            { id: "3.3", name: "Other mental disorders due to brain damage", code: "F06" },
+            { id: "3.4", name: "Mental and behavioural disorders due to use of - Alcohol", code: "F10" },
+            { id: "3.5", name: "Mental and behavioural disorders due to use of - Opioids", code: "F11" },
+            { id: "3.6", name: "Mental and behavioural disorders due to use of - Cannabinoids", code: "F12" },
+            { id: "3.7", name: "Mental and behavioural disorders due to use of - Sedatives/Hypnotics", code: "F13" },
+            { id: "3.8", name: "Mental and behavioural disorders due to use of - Tobacco", code: "F17" },
+            { id: "3.9", name: "Schizophrenia", code: "F20" },
+            { id: "3.10", name: "Delusional disorders", code: "F22" },
+            { id: "3.11", name: "Acute and transient psychotic disorders", code: "F23" },
+            { id: "3.12", name: "Schizoaffective disorders", code: "F25" },
+            { id: "3.13", name: "Manic episode / Bipolar affective disorder", code: "F30-F31" },
+            { id: "3.14", name: "Depressive episode / Recurrent depressive disorder", code: "F32-F33" },
+            { id: "3.15", name: "Anxiety disorders (eg. Phobia, GAD)", code: "F40-F41" },
+            { id: "3.16", name: "Obsessive compulsive disorders", code: "F42" },
+            { id: "3.17", name: "Reaction to severe stress and adjustment disorders", code: "F43" },
+            { id: "3.18", name: "Dissociative (conversion) disorder", code: "F44" },
+            { id: "3.19", name: "Somatoform disorders", code: "F45" },
+            { id: "3.20", name: "Eating disorders", code: "F50" },
+            { id: "3.21", name: "Sexual disorders", code: "F52" },
+            { id: "3.22", name: "Pregnancy related mental health disorders", code: "F53" },
+            { id: "3.23", name: "Personality disorders", code: "F60" },
+            { id: "3.24", name: "Gender identity disorders", code: "F64" },
+            { id: "3.25", name: "Mental retardation", code: "F70-F79" },
+            { id: "3.26", name: "Speech and language disorders", code: "F80" },
+            { id: "3.27", name: "Specific development disorders of scholastic skills", code: "F81" },
+            { id: "3.28", name: "PDD including autism", code: "F84" },
+            { id: "3.29", name: "ADHD", code: "F90" },
+            { id: "3.30", name: "Conduct disorder", code: "F91" },
+            { id: "3.31", name: "Emotional disorders with onset specific to childhood", code: "F93" },
+            { id: "3.32", name: "Dis. of social functioning with onset specific to childhood", code: "F94" },
+            { id: "3.33", name: "Tic disorders", code: "F95" },
+            { id: "3.34", name: "Other behavioural and emotional disorders of childhood", code: "F98" },
+            { id: "3.35", name: "Epilepsy", code: "" },
+            { id: "3.36", name: "Other", code: "" },
+            { id: "3.37", name: "No psychiatric illness", code: "" }
+        ];
+
+        const sec4Conditions = [
+            "4.1 Deliberate self-harm / Attempted suicides",
+            "4.2 Suicides",
+            "4.3 Victims of sexual abuse",
+            "4.4 Victims of violence"
+        ];
+
+        const sec5Programmes = [
+            "5.1 Depot injection programme",
+            "5.2 Other domiciliary visits"
+        ];
+
+        const sec6Promotions = [
+            "6.1 Mental Well Being Promotion",
+            "6.2 Prevention & control of Alcohol & other Substance use",
+            "6.3 Suicide Prevention",
+            "6.4 Prevention of Violence",
+            "6.5 Child & Adolescent Mental Health",
+            "6.6 Other"
+        ];
+
+        const sec7Centres = [
+            "7.1 Long stay units",
+            "7.2 Medium stay units",
+            "7.3 Day centres",
+            "7.4 Alcohol Rehabilitation Centre",
+            "7.5 Community Support Centres",
+            "7.6 Elderly homes",
+            "7.7 Children's homes",
+            "7.8 Prisons",
+            "7.9 Certified Schools",
+            "7.10 Other"
+        ];
+
+        const sec8Meetings = [
+            "8.1 Monthly conference at MOH office",
+            "8.2 District Mental Health Reviews",
+            "8.3 School Medical Inspection (SMI)",
+            "8.4 Divisional coordinating committee",
+            "8.5 Consumer & carer society meeting",
+            "8.6 Other"
+        ];
+
+        const sec9Trainings = [
+            "9.1 Promotion of Mental Wellbeing",
+            "9.2 Prevention/Control of Substance & Alcohol use",
+            "9.3 Psycho-social first aid",
+            "9.4 Life skills",
+            "9.5 Child & Adolescent Mental Health",
+            "9.6 Other"
+        ];
+
+        // Active Modal State
+        let activeModalTarget = null;
+
+        // Initialize Render
+        window.addEventListener('DOMContentLoaded', () => {
+            renderSection1();
+            renderSection2();
+            renderSection3();
+            renderSection4();
+            renderSection5();
+            renderSection6();
+            renderSection7();
+            renderSection8();
+            renderSection9();
+            calculateTotals();
+        });
+
+        // Render Section 1
+        function renderSection1() {
+            const tbody = document.getElementById('sec1-tbody');
+            tbody.innerHTML = sec1Categories.map((cat, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${cat.name}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="sec1_${idx}" value="${cat.value}" class="w-full text-center border border-slate-300 rounded p-1 text-sm focus:ring-1 focus:ring-teal-500">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 2
+        function renderSection2() {
+            const tbody = document.getElementById('sec2-tbody');
+            tbody.innerHTML = sec2Sources.map((src, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${src.name}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="sec2_${idx}" value="${src.value}" class="sec2-input w-full text-center border border-slate-300 rounded p-1 text-sm focus:ring-1 focus:ring-teal-500">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 3
+        function renderSection3() {
+            const tbody = document.getElementById('sec3-tbody');
+            tbody.innerHTML = sec3Diagnoses.map((diag, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 text-left font-medium text-xs sm:text-sm">${diag.id} ${diag.name}</td>
+                    <td class="p-2 border border-slate-300 text-slate-500 text-xs font-mono">${diag.code}</td>
+                    <td class="p-1 border border-slate-300 bg-sky-50/30"><input type="number" min="0" id="s3_${idx}_fvm" class="s3-fvm w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300 bg-sky-50/30"><input type="number" min="0" id="s3_${idx}_fvf" class="s3-fvf w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300 bg-indigo-50/30"><input type="number" min="0" id="s3_${idx}_fum" class="s3-fum w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300 bg-indigo-50/30"><input type="number" min="0" id="s3_${idx}_fuf" class="s3-fuf w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td id="s3_${idx}_rowtot" class="p-2 border border-slate-300 bg-slate-100 font-bold text-slate-800 text-xs">0</td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 4
+        function renderSection4() {
+            const tbody = document.getElementById('sec4-tbody');
+            tbody.innerHTML = sec4Conditions.map((cond, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 text-left font-medium">${cond}</td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_u19m" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_u19f" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_a20m" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_a20f" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_a60m" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                    <td class="p-1 border border-slate-300"><input type="number" min="0" id="s4_${idx}_a60f" class="w-full text-center border border-slate-300 rounded p-1 text-xs"></td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 5
+        function renderSection5() {
+            const tbody = document.getElementById('sec5-tbody');
+            tbody.innerHTML = sec5Programmes.map((prog, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${prog}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="s5_${idx}" class="w-full text-center border border-slate-300 rounded p-1 text-sm">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 6
+        function renderSection6() {
+            const tbody = document.getElementById('sec6-tbody');
+            tbody.innerHTML = sec6Promotions.map((promo, idx) => {
+                let colInputs = '';
+                for(let c=0; c<18; c++) {
+                    colInputs += `<td class="p-0 border border-slate-300"><input type="number" min="0" id="s6_${idx}_c${c}" class="w-full text-center border-0 p-1 text-xs focus:ring-0"></td>`;
+                }
+                return `
+                    <tr class="hover:bg-slate-50 border-b border-slate-200">
+                        <td class="p-2 border border-slate-300 text-left font-medium text-xs">${promo}</td>
+                        ${colInputs}
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Render Section 7
+        function renderSection7() {
+            const tbody = document.getElementById('sec7-tbody');
+            tbody.innerHTML = sec7Centres.map((cnt, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${cnt}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="s7_${idx}" class="w-full text-center border border-slate-300 rounded p-1 text-sm">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 8
+        function renderSection8() {
+            const tbody = document.getElementById('sec8-tbody');
+            tbody.innerHTML = sec8Meetings.map((mtg, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${mtg}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="s8_${idx}" class="w-full text-center border border-slate-300 rounded p-1 text-sm">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Render Section 9
+        function renderSection9() {
+            const tbody = document.getElementById('sec9-tbody');
+            tbody.innerHTML = sec9Trainings.map((trn, idx) => `
+                <tr class="hover:bg-slate-50 border-b border-slate-200">
+                    <td class="p-2 border border-slate-300 font-medium">${trn}</td>
+                    <td class="p-2 border border-slate-300 text-center">
+                        <input type="number" min="0" id="s9_${idx}" class="w-full text-center border border-slate-300 rounded p-1 text-sm">
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Calculate Totals Across Form
+        function calculateTotals() {
+            // Section 2 Total
+            let sec2Tot = 0;
+            document.querySelectorAll('.sec2-input').forEach(inp => {
+                sec2Tot += parseInt(inp.value) || 0;
+            });
+            document.getElementById('total-sec2').innerText = sec2Tot;
+            document.getElementById('summary-referrals').innerText = sec2Tot;
+
+            // Section 3 Totals
+            let fvmTot = 0, fvfTot = 0, fumTot = 0, fufTot = 0;
+            sec3Diagnoses.forEach((_, idx) => {
+                const fvm = parseInt(document.getElementById(`s3_${idx}_fvm`)?.value) || 0;
+                const fvf = parseInt(document.getElementById(`s3_${idx}_fvf`)?.value) || 0;
+                const fum = parseInt(document.getElementById(`s3_${idx}_fum`)?.value) || 0;
+                const fuf = parseInt(document.getElementById(`s3_${idx}_fuf`)?.value) || 0;
+
+                const rowTot = fvm + fvf + fum + fuf;
+                const rowTotEl = document.getElementById(`s3_${idx}_rowtot`);
+                if (rowTotEl) rowTotEl.innerText = rowTot;
+
+                fvmTot += fvm;
+                fvfTot += fvf;
+                fumTot += fum;
+                fufTot += fuf;
+            });
+
+            document.getElementById('tot-3-fv-m').innerText = fvmTot;
+            document.getElementById('tot-3-fv-f').innerText = fvfTot;
+            document.getElementById('tot-3-fu-m').innerText = fumTot;
+            document.getElementById('tot-3-fu-f').innerText = fufTot;
+
+            const grand3 = fvmTot + fvfTot + fumTot + fufTot;
+            document.getElementById('tot-3-grand').innerText = grand3;
+
+            document.getElementById('summary-firstvisits').innerText = fvmTot + fvfTot;
+            document.getElementById('summary-followups').innerText = fumTot + fufTot;
+            document.getElementById('summary-totalattendees').innerText = grand3;
+        }
+
+        // Edit Category & Default Values Modal Logic
+        function openModal(target) {
+            activeModalTarget = target;
+            const container = document.getElementById('modalInputs');
+            container.innerHTML = '';
+
+            let currentList = target === 'part1' ? sec1Categories : sec2Sources;
+            let valLabel = target === 'part1' ? 'Clinic Days' : 'Referred Clients';
+            document.getElementById('modalTitle').innerText = target === 'part1' ? 'Edit Clinic Session Categories & Defaults' : 'Edit Referral Sources & Defaults';
+
+            currentList.forEach((item, idx) => {
+                container.innerHTML += `
+                    <div class="grid grid-cols-3 gap-2 items-center bg-slate-50 p-2 rounded border border-slate-200">
+                        <div class="col-span-2">
+                            <label class="block text-[11px] font-semibold text-slate-500">Category Name (${idx+1})</label>
+                            <input type="text" id="modal_name_${idx}" value="${item.name}" class="w-full border border-slate-300 rounded px-2 py-1 text-xs">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-500">Default ${valLabel}</label>
+                            <input type="number" min="0" id="modal_val_${idx}" value="${item.value}" class="w-full text-center border border-slate-300 rounded px-2 py-1 text-xs font-bold">
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('editModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').classList.add('hidden');
+        }
+
+        function saveModalChanges() {
+            let currentList = activeModalTarget === 'part1' ? sec1Categories : sec2Sources;
+            currentList.forEach((_, idx) => {
+                const updatedName = document.getElementById(`modal_name_${idx}`).value;
+                const updatedVal = document.getElementById(`modal_val_${idx}`).value;
+                
+                if (updatedName !== "") currentList[idx].name = updatedName;
+                currentList[idx].value = parseInt(updatedVal) || 0;
+            });
+
+            if (activeModalTarget === 'part1') renderSection1();
+            else renderSection2();
+
+            closeModal();
+            calculateTotals();
+        }
+
+        // Clear Form Data
+        function clearForm() {
+            if (confirm("Are you sure you want to clear all entered data?")) {
+                document.getElementById('h1277Form').reset();
+                calculateTotals();
+            }
+        }
+
+        // Export Data as JSON
+        function exportJSON() {
+            const formData = {};
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(inp => {
+                if (inp.id) formData[inp.id] = inp.value;
+            });
+
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(formData, null, 2));
+            const dlAnchor = document.createElement('a');
+            dlAnchor.setAttribute("href", dataStr);
+            dlAnchor.setAttribute("download", `H1277_Return_${document.getElementById('period').value || 'Data'}.json`);
+            document.body.appendChild(dlAnchor);
+            dlAnchor.click();
+            dlAnchor.remove();
+        }
+
+async function submitToServer() {
+    const webAppUrl = "https://script.google.com/macros/s/AKfycbyPUO6-24eTSsamaysdMARyMOB6T3A8kIJci825QF6Z1GlbyIhMmEg-SPkjI5i3T71d/exec"; 
+
+    // Validate critical identification fields
+    const orgUnit = document.getElementById('org_unit').value;
+    const period = document.getElementById('period').value;
+
+    if (!orgUnit || !period) {
+        alert("Please ensure Organisation Unit and Period are filled out before submitting.");
+        return;
+    }
+
+    if (!confirm(`Are you sure you want to submit the return for ${orgUnit} (${period}) to the server?`)) {
+        return;
+    }
+
+    // Collect all input fields into payload
+    const formData = {};
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(inp => {
+        if (inp.id) {
+            formData[inp.id] = inp.value;
+        }
+    });
+
+    // Show loading state
+    const submitBtn = event.currentTarget;
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Transmitting...`;
+    submitBtn.disabled = true;
+
+    try {
+        const response = await fetch(webAppUrl, {
+            method: 'POST',
+            mode: 'cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(formData)
+        });
+
+        const resData = await response.json();
+
+        if (resData.status === 'success') {
+            alert(`Success! Data transmitted and saved as:\n${resData.fileName}`);
+        } else {
+            alert(`Server Error: ${resData.message}`);
+        }
+    } catch (err) {
+        alert("Transmission failed. Please check your internet connection and try again.");
+        console.error(err);
+    } finally {
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+
+    </script>
+</body>
+</html>
+
+```
